@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+     <script src="script.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+             background: url(../static/images/hero-bg.png) top center no-repeat;
+            background-size:cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container{
+         max-width: 500px;
+         max-height:95vh;
+        }
+
+
+
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+
+    <div class="form-container">
+        <div class="logo">
+
+                <a href="/">FOCUSKEEPER</a>
+
+        </div>
+        <form class="login-form" method="POST" action="/signuppage">
+            <div class="form-outline mb-3">
+                <label class="form-label" for="firstname">First name:</label>
+                <input type="text" id="firstname" name="firstname" class="form-control form-control-lg" required />
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label" for="lastname">Last name:</label>
+                <input type="text" id="lastname" name="lastname" class="form-control form-control-lg" required />
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label" for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control form-control-lg" />
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label" for="password">Password:</label>
+                <input type="password" id="password"  name="password" class="form-control form-control-lg" required />
+            </div>
+            <div class="form-outline mb-3">
+                <label class="form-label" for="cpassword">Confirm password:</label>
+                <input type="password" id="cpassword"  name="cpassword" class="form-control form-control-lg" required />
+            </div>
+           <div class="pt-1 mb-4" style="margin-top: 0px; display: flex; align-items: center;">
+    <button type="submit" class="btn-signin" id="btn-sig">Sign up</button>
+    <p style="margin-left: 10px;margin-top:35px;">Already have an account? <a href="/login" class="link-register">Log in</a></p>
+</div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<html lang=ro>
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+
+      <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  <div class="container-fluid container-xl">
+    <a href="/dash_user" class="navbar-brand" style="text-decoration:none; background: linear-gradient(to right, #c363f7, #0f3cdb); -webkit-background-clip: text; background-clip: text; color: transparent;">
+      FOCUSKEEPER
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('sessions') }}">Sessions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('user_study_data') }}">Overview</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('stats_user') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('achievements_user') }}">Achievements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('faquser') }}">FAQ</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if profile_image %}
+              <img src="{{ profile_image }}" class="user-image" alt="Profile Image" width="40px" style="border-radius:20px;">
+            {% else %}
+              <img src="{{ default_image }}" class="user-image" alt="Default Image" width="40px">
+            {% endif %}
+          </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="ri-user-line icon" style="font-size:16px;"></i> Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout"><i class="ri-login-box-line icon" style="font-size:16px;"></i> Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data" style="margin-top:15vh;">
+    <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                {% if profile_image %}
+                    <img class="rounded-circle mt-5" width="150px" src="{{ profile_image }}" alt="Profile Image">
+                {% else %}
+                    <img class=" mt-5" width="150px" src="{{ default_image }}" alt="Default Image">
+                {% endif %}
+                <span class="font-weight-bold">{{ user.first_name }}</span>
+                <span class="text-black-50">{{ user.email }}</span>
+            </div>
+        </div>
+        <div class="col-md-4 border-right">
+            <div class="profile p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                     <h3><span>PROFILE </span> SETTINGS</h3>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <label class="labels"  for="first_name">First Name</label>
+                        <input type="text"  id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels" for="last_name">Last Name</label>
+                        <input type="text"  id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="{{ user.last_name }}">
+                    </div>
+                </div>
+                <div class="row mt-4" >
+                    <div class="col-md-12 " >
+                        <label class="labels" for="email">Email</label>
+                        <input type="email" id="email" name="email"  class="form-control" placeholder="Enter email" value="{{ user.email }}">
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <label class="labels" for="date_of_birth">Date of Birth</label>
+                        <input type="date" id="date_of_birth" name="date_of_birth"  class="form-control" placeholder="Enter date of birth" value="{{ user.date_of_birth }}">
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <label class="labels" for="profile_image">Add Profile Image</label>
+                        <input type="file" class="form-control" id="profile_image" name="profile_image">
+                    </div>
+                     <div class="col-md-12 mt-4">
+                            <label class="labels" for="remove_profile_image">Delete Profile Picture?</label>
+                            <input type="checkbox" id="remove_profile_image" name="remove_profile_image">
+                        </div>
+                      <input type="hidden" name="user_id" value="{{ user.id }}">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Add Description</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;</span></div><br>
+                <div class="col-md-12"><label class="labels">Description</label><input type="text" class="form-control"  value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control"  value=""></div>
+            </div>
+        </div>
+ <div class="mt-5 text-center">
+                    <button class="px-btn theme profile-button" type="submit" name="action" value="save">Save Profile</button>
+                         <button class="px-btn" type="submit" name="action" value="cancel">Cancel</button>
+                </div>
+    </div>
+</div>
+
+
+
+</form>
+
+ <footer class="footer text-center text-lg-start text-white" >
+    <div class="container p-4 pb-0">
+      <section class="footer-1">
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              FocusKeeper
+            </h6>
+            <p>
+              Discover how our app can transform your driving experiences and study sessions into safer, more productive endeavors.
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Features</h6>
+            <p>
+              <a class="text-white">Driving Session</a>
+            </p>
+            <p>
+              <a class="text-white">Study Session</a>
+            </p>
+
+             <p>
+              <a class="text-white">Overview</a>
+            </p>
+
+            <p>
+              <a class="text-white">FAQ</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              Useful links
+            </h6>
+            <p>
+              <a href="/login" class="text-white">Log in</a>
+            </p>
+            <p>
+              <a href="#demo" class="text-white">Demo</a>
+            </p>
+            <p>
+              <a href="#services" class="text-white">About</a>
+            </p>
+            <p>
+              <a href="#contact" class="text-white">Contact</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+            <p><i class="fa fa-home "></i> Baia Mare, Maramureș 403223, RO</p>
+            <p><i class="fa fa-envelope "></i> claudiatamas28@gmail.com</p>
+            <p><i class="fa fa-phone "></i> (+40) 745 780 410</p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <hr class="my-3">
+
+
+      <section class="p-3 pt-0">
+        <div class="row d-flex align-items-center">
+
+          <div class="col-md-7 col-lg-8 text-center text-md-start">
+
+            <div class="p-3">
+              © 2024 Copyright:
+              <a class="text-white" href="https://mdbootstrap.com/">Claudia-Paula Tămaș</a>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-facebook"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white"  role="button"><i class="fa fa-twitter"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-google"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-instagram"></i></a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </footer>
+
+
+<script>
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

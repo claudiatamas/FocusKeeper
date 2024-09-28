@@ -1,0 +1,56 @@
+<html lang=ro>
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="static/script.js" defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+<main>
+        <div class="adding">
+            <div class="container mt-5">
+                <h1 class="text-center mb-4">Edit Article</h1>
+                <form class="center-form" method="post">
+                    <label for="article_title">Article Title:</label>
+                    <input class="form-control mb-2" type="text" id="article_title" name="article_title" value="{{ article.title }}">
+                    <label for="description">Description:</label>
+                    <input class="form-control mb-2" type="text" id="description" name="description" value="{{ article.description }}">
+                    <label for="image">Image:</label>
+                    <input class="form-control mb-2" type="file" id="image" name="image">
+                    <label for="link">Link:</label>
+                    <input class="form-control mb-2" type="text" id="link" name="link" value="{{ article.link }}">
+                    <button class="btn btn-primary mr-2" type="submit">Update</button>
+                    <a href="{{ url_for('cancel_article') }}" class="btn btn-danger">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

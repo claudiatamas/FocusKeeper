@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+     <script src="script.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+           background: url(../static/images/hero-bg.png) top center no-repeat;
+            background-size:cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container{
+         max-width: 500px;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="login-container">
+
+    <div class="form-container">
+
+            <div class="logo" style="margin-bottom:15px;">
+                <a href="/">FOCUSKEEPER</a>
+            </div>
+
+
+    <div class="row">
+        <div class="ses col-lg-12  ">
+            <p>Please set a distance of approximately 50 cm from the camera for optimal results. Experiment with a brief eye closure to assess the alertness mechanism.</p>
+            <img src="{{ url_for('video_feed') }}" style="margin-left:50px;" >
+        </div>
+    </div>
+
+          </div>
+</div>
+
+
+<script>
+    document.getElementById('login').addEventListener('click', function() {
+    window.location.href = '/login';
+  });
+</script>
+</body>
+</html>

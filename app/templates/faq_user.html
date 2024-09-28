@@ -1,0 +1,375 @@
+<html lang=ro>
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="static/script.js" defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<style>
+
+     #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background:#fafafa;
+            box-shadow:0px 5px 15px rgba(0,0,0,0.25);
+            padding: 20px;
+            border-radius: 10px;
+            color: rgb(10, 21, 47);
+            z-index: 999;
+            width: 340px;
+            height: 320px;
+            text-align: center;
+            border:none;
+        }
+
+        #modal h2 {
+            margin-top:20px;
+            margin-bottom: 20px;
+            text-align:center;
+        }
+        #submitbtn{
+            background-color: ;
+            color: rgb(10, 21, 47);
+            border: none;
+            padding: 10px 20px;
+            margin-top:20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #modal label {
+            display: block;
+            margin-bottom: 10px;
+            color: rgb(10, 21, 47);
+        }
+
+        #modal input {
+            padding:12px;
+        width:225px;
+        border-radius:20px;
+        border:none;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+        font-size:14px;
+        outline:none;
+        margin-bottom:20px;
+           margin-top:20px;
+        }
+
+        #modal button {
+            cursor:pointer;
+            text-decoration:none;
+            padding: 0 15px;
+            line-height: 40.5px;
+            border: 2px solid transparent;
+            position: relative;
+            display: inline-block;
+            background: none;
+            border: none;
+            -moz-transition: ease all 0.35s;
+            -o-transition: ease all 0.35s;
+            -webkit-transition: ease all 0.35s;
+            transition: ease all 0.35s;
+            border-radius: 10px;
+            font-size: 17.5px;
+            font-weight: 500;
+            background: #006AF6;
+            color: #ffffff;
+            border: 2px solid #006AF6;
+        }
+        #modal button:hover{
+           color: #006AF6;
+           border:2px solid #006AF6;
+           background: transparent;
+        }
+</style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  <div class="container-fluid container-xl">
+    <a href="/dash_user" class="navbar-brand" style="text-decoration:none; background: linear-gradient(to right, #c363f7, #0f3cdb); -webkit-background-clip: text; background-clip: text; color: transparent;">
+      FOCUSKEEPER
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('sessions') }}" style=" color: #013289;">Sessions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('user_study_data') }}" style=" color: #013289;">Overview</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('stats_user') }}" style=" color: #013289;">Stats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('achievements_user') }}" style=" color: #013289;">Achievements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('faquser') }}" style=" color: #013289;">FAQ</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if profile_image %}
+              <img src="{{ profile_image }}" class="user-image" alt="Profile Image" width="40px" style="border-radius:20px;">
+            {% else %}
+              <img src="{{ default_image }}" class="user-image" alt="Default Image" width="40px">
+            {% endif %}
+          </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="ri-user-line icon" style="font-size:16px;"></i> Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout"><i class="ri-login-box-line icon" style="font-size:16px;"></i> Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main style=" background-color: #f5f5ff;">
+
+
+<div class="faq_area section_padding_130" id="faq">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;margin-top:100px;">
+                    <h3><span>FREQUENTLY </span> ASKED <br> QEUSTIONS</h3>
+
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- FAQ Area-->
+            <div class="col-12 col-sm-10 col-lg-8">
+                <div class="accordion faq-accordian" id="faqAccordion">
+                    {% for faq_item in faq_items %}
+                    {% if faq_item.answer %}
+                    <div class="card border-0 wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                        <div class="card-header" id="heading{{ faq_item.id }}">
+                            <h6 class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse{{ faq_item.id }}" aria-expanded="true" aria-controls="collapse{{ faq_item.id }}">{{ faq_item.question }}<span class="lni-chevron-up"></span></h6>
+                        </div>
+                        <div class="collapse" id="collapse{{ faq_item.id }}" aria-labelledby="heading{{ faq_item.id }}" data-parent="#faqAccordion">
+                            <div class="card-body">
+                                <p>{{ faq_item.answer }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- Support Button-->
+                <div class="support-button text-center d-flex align-items-center justify-content-center mt-4 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp; margin-bottom:110px;">
+                    <i class="lni-emoji-sad"></i>
+                    <p class="mb-0 px-2">Can't find your answers?</p>
+                    <a href="#" id="openModal"> Add your question!</a>
+                    <div id="overlay" style="display: none;"></div>
+                    <div id="modal" style="display: none;">
+                        <div id="questionBlock"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<footer class="footer text-center text-lg-start text-white" >
+    <div class="container p-4 pb-0">
+      <section class="footer-1">
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              FocusKeeper
+            </h6>
+            <p>
+              Discover how our app can transform your driving experiences and study sessions into safer, more productive endeavors.
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Features</h6>
+            <p>
+              <a class="text-white">Driving Session</a>
+            </p>
+            <p>
+              <a class="text-white">Study Session</a>
+            </p>
+
+             <p>
+              <a class="text-white">Overview</a>
+            </p>
+
+            <p>
+              <a class="text-white">FAQ</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              Useful links
+            </h6>
+            <p>
+              <a href="/login" class="text-white">Log in</a>
+            </p>
+            <p>
+              <a href="#demo" class="text-white">Demo</a>
+            </p>
+            <p>
+              <a href="#services" class="text-white">About</a>
+            </p>
+            <p>
+              <a href="#contact" class="text-white">Contact</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+            <p><i class="fa fa-home "></i> Baia Mare, Maramureș 403223, RO</p>
+            <p><i class="fa fa-envelope "></i> claudiatamas28@gmail.com</p>
+            <p><i class="fa fa-phone "></i> (+40) 745 780 410</p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <hr class="my-3">
+
+
+      <section class="p-3 pt-0">
+        <div class="row d-flex align-items-center">
+
+          <div class="col-md-7 col-lg-8 text-center text-md-start">
+
+            <div class="p-3">
+              © 2024 Copyright:
+              <a class="text-white" href="https://mdbootstrap.com/">Claudia-Paula Tămaș</a>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-facebook"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white"  role="button"><i class="fa fa-twitter"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-google"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-instagram"></i></a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </footer>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+
+
+
+document.getElementById('openModal').addEventListener('click', function () {
+    var closeButton = document.createElement('button');
+    closeButton.innerHTML = 'x';
+    closeButton.style.background = 'none';
+    closeButton.style.border = 'none';
+    closeButton.style.color = 'rgb(10, 21, 47)';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px'; // Adjust as needed
+    closeButton.onclick = function () {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('openModal').style.display = 'inline';
+    };
+
+    var questionForm = document.createElement('form');
+    questionForm.id = 'questionForm';
+    questionForm.innerHTML = '<h2>Your Question:</h2>' +
+        '<label for="question"></label>' +
+        '<input type="text" id="question" name="question" required>' +
+        '<button class="learn-more-btn" type="button" onclick="submitQuestion()">Submit</button>';
+
+    var lineBreak = document.createElement('br');
+
+    var questionBlock = document.getElementById('questionBlock');
+    questionBlock.innerHTML = ''; // Clear previous content
+    questionBlock.appendChild(closeButton);
+    questionBlock.appendChild(lineBreak);
+    questionBlock.appendChild(questionForm);
+
+    // Make sure the questionBlock is visible
+    questionBlock.style.display = 'block';
+
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('openModal').style.display = 'none';
+});
+
+function submitQuestion() {
+    var question = document.getElementById('question').value;
+
+    // Send the question to the backend
+    fetch('/submit_question', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question: question }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('openModal').style.display = 'inline';
+    })
+    .catch(error => console.error('Error:', error));
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<html lang=ro>
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="static/script.js" defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://learnopencv.com/wp-content/uploads/2017/12/favicon.png" rel="icon">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+       <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  <div class="container-fluid container-xl">
+    <a href="/dash_admin" class="navbar-brand" style="text-decoration:none; background: linear-gradient(to right, #c363f7, #0f3cdb); -webkit-background-clip: text; background-clip: text; color: transparent;">
+      FOCUSKEEPER
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarAdmin">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('gestionare_users') }}">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('achievements_admin') }}">Achievements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('articles_admin') }}">Articles</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('reviews_admin') }}">Reviews</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('faqadmin') }}">FAQ</a>
+        </li>
+                  <div class="action-buttons"><div class="dropdown show">
+                 <a class="btn learn-more-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if profile_image %}
+                            <img src="{{ profile_image}}" class="user-image" alt="Profile Image" width="40px" >
+                            {% else %}
+                            <img src="{{ default_image }}" class="user-image" alt="Default Image" width="40px">
+                            {% endif %}
+
+                        </a>
+
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+    <a class="dropdown-item" href="/logout">Log out</a>
+  </div>
+</div>
+                  </div>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main>
+        <div class="adding">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">New Achievement</h1>
+    <form class="center-form" method="post" action="{{ url_for('add_achievement') }}" enctype="multipart/form-data">
+        <label>Type:</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="type" id="driving" value="Driving">
+            <label class="form-check-label" for="driving">
+                Driving
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="type" id="studying" value="Studying">
+            <label class="form-check-label" for="studying">
+                Studying
+            </label>
+        </div>
+        <label for="title">Title:</label>
+        <input class="form-control mb-2" type="text" id="title" name="title">
+
+        <button class="btn btn-primary mr-2" type="submit">Add</button>
+        <a href="{{ url_for('cancel_achievement') }}" class="btn btn-danger">Cancel</a>
+    </form>
+</div>
+
+        </div>
+    </main>
+     <footer class="footer text-center text-lg-start text-white" >
+    <div class="container p-4 pb-0">
+      <section class="footer-1">
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              FocusKeeper
+            </h6>
+            <p>
+              Discover how our app can transform your driving experiences and study sessions into safer, more productive endeavors.
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Features</h6>
+            <p>
+              <a class="text-white">Driving Session</a>
+            </p>
+            <p>
+              <a class="text-white">Study Session</a>
+            </p>
+
+             <p>
+              <a class="text-white">Overview</a>
+            </p>
+
+            <p>
+              <a class="text-white">FAQ</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">
+              Useful links
+            </h6>
+            <p>
+              <a href="/login" class="text-white">Log in</a>
+            </p>
+            <p>
+              <a href="#demo" class="text-white">Demo</a>
+            </p>
+            <p>
+              <a href="#services" class="text-white">About</a>
+            </p>
+            <p>
+              <a href="#contact" class="text-white">Contact</a>
+            </p>
+          </div>
+
+
+          <hr class="w-100 clearfix d-md-none" />
+
+
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+            <p><i class="fa fa-home "></i> Baia Mare, Maramureș 403223, RO</p>
+            <p><i class="fa fa-envelope "></i> claudiatamas28@gmail.com</p>
+            <p><i class="fa fa-phone "></i> (+40) 745 780 410</p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <hr class="my-3">
+
+
+      <section class="p-3 pt-0">
+        <div class="row d-flex align-items-center">
+
+          <div class="col-md-7 col-lg-8 text-center text-md-start">
+
+            <div class="p-3">
+              © 2024 Copyright:
+              <a class="text-white" href="https://mdbootstrap.com/">Claudia-Paula Tămaș</a>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-facebook"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white"  role="button"><i class="fa fa-twitter"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-google"></i></a>
+
+            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa fa-instagram"></i></a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

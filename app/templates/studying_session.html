@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FocusKeeper</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="static\bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="../static/script.js" ></script>
+    <script src="../static/todo.js" defer></script>
+    <script src="../static/drag.js" defer></script>
+    <style>
+        body {
+             background-image: white;
+            background-size:cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .study-container{
+
+         max-width: 550px;
+         max-height: 95vh;
+        }
+        .kanban-container {
+            max-width: 900px;
+
+        }
+        .kanban-board {
+
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        @media (max-width: 767px) {
+        .study-container{
+        margin-top:40vh;
+        }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  <div class="container-fluid container-xl">
+    <a href="/dash_user" class="navbar-brand" style="text-decoration:none; background: linear-gradient(to right, #c363f7, #0f3cdb); -webkit-background-clip: text; background-clip: text; color: transparent;">
+      FOCUSKEEPER
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('sessions') }}">Sessions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('user_study_data') }}">Overview</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('stats_user') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('achievements_user') }}">Achievements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scrollto" href="{{ url_for('faquser') }}">FAQ</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if profile_image %}
+              <img src="{{ profile_image }}" class="user-image" alt="Profile Image" width="40px" style="border-radius:20px;">
+            {% else %}
+              <img src="{{ default_image }}" class="user-image" alt="Default Image" width="40px">
+            {% endif %}
+          </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="ri-user-line icon" style="font-size:16px;"></i> Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout"><i class="ri-login-box-line icon" style="font-size:16px;"></i> Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="container" style="margin-top:50px;">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="study-container">
+                <div class="form-container">
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="sses col-lg-12 offset-lg-2">
+                                <h3 class="mt-4"><span>STUDY </span>SESSION</h3>
+                                <p>To start the session, switch the button on.</p>
+                                <div class="form-check form-switch mt-3">
+                                    <input class="form-check-input" type="checkbox" id="switchButton" style="width:70px;height:30px;color: #336AEA;">
+                                </div>
+                                <br>
+                                <p id="timerDisplay" style="display: none;"> <span id="timerValue">0</span> seconds</p>
+                                <p hidden="hidden">Eyes Closed: <span id="eyesClosedCount">0</span></p>
+                                <p hidden="hidden">Yawning: <span id="yawningCount">0</span></p>
+                                <p hidden="hidden">Attention: <span id="attentionCount">0</span></p>
+                                <img id="videoFeed" src="../static/images/drv.jpg" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="kanban-container">
+                <div class="kanban-board">
+
+                    <br>
+                    <form id="todo-form">
+                        <input type="text" placeholder="New Task..." id="todo-input">
+                        <button type="submit"><i class="fa fa-plus"></i></button>
+                    </form>
+                    <div class="lanes">
+                        <div class="swim-lane" id="todo-lane">
+                            <h3 class="heading">TO DO</h3>
+
+                        </div>
+                        <div class="swim-lane" >
+                            <h3 class="heading">DOING</h3>
+
+                        </div>
+                        <div class="swim-lane" >
+                            <h3 class="heading">DONE</h3>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="modal" id="feedbackModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">FeedBack</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p>How was the quality of the session?</p>
+            <form action="/submit_feedback" method="POST">
+                <div class="star-widget">
+                <input type="radio" name="stars" id="rate-5"  value="5">
+                <label for="rate-5" data-value="5">&#9733;</label>
+                <input type="radio" name="stars" id="rate-4"  value="4">
+                <label for="rate-4"  data-value="4">&#9733;</label>
+                <input type="radio" name="stars" id="rate-3" value="3" >
+                <label for="rate-3"  data-value="3">&#9733;</label>
+                <input type="radio" name="stars" id="rate-2" value="2">
+                <label for="rate-2" data-value="2">&#9733;</label>
+                <input type="radio" name="stars" id="rate-1" value="1" >
+                <label for="rate-1" data-value="1" >&#9733;</label>
+                </div>
+                <input id="user_id" name="user_id"  value="{{ user.id }}" style="display:none;">
+
+          <div class="textarea" >
+            <textarea id="feedback" name="feedback" cols="60" placeholder="Describe your experience.."></textarea>
+          </div>
+
+          <button type="submit" class="btn-read-more" style="margin-top:10px; float:right;">Send</button>
+            </form>
+     </div>
+
+  </div>
+</div>     </div>
+  </main>
+
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+       $('#feedbackModal').modal('hide');
+       const btn = document.querySelector("button");
+      const post = document.querySelector(".post");
+      const widget = document.querySelector(".star-widget");
+      const editBtn = document.querySelector(".edit");
+      btn.onclick = ()=>{
+        widget.style.display = "none";
+        post.style.display = "block";
+        editBtn.onclick = ()=>{
+          widget.style.display = "block";
+          post.style.display = "none";
+        }
+        return false;
+      }
+
+    var switchButton = document.getElementById('switchButton');
+    var timerDisplay = document.getElementById('timerDisplay');
+    var timerValue = document.getElementById('timerValue');
+    var timerInterval;
+    var videoFeed = document.getElementById('videoFeed');
+    var videoFeedSrc = "{{ url_for('video_feed_studying') }}";
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var eyesClosedCount = 0;
+    var yawningCount = 0;
+    var attentionCount = 0;
+    var totalTimeElapsed = 0; // Variable to keep track of total elapsed time
+
+    function updateAlertCounts() {
+        document.getElementById('eyesClosedCount').innerText = eyesClosedCount;
+        document.getElementById('yawningCount').innerText = yawningCount;
+        document.getElementById('attentionCount').innerText = attentionCount;
+    }
+
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('update_alert_counts', function (data) {
+        eyesClosedCount = data.seyes_closed_count;
+        yawningCount = data.syawning_count;
+        attentionCount = data.sattention_count;
+
+        updateAlertCounts();
+    });
+
+    if (switchButton.checked) {
+        startTimerAndVideo();
+    }
+
+    switchButton.addEventListener('change', function () {
+        if (switchButton.checked) {
+            startTimerAndVideo();
+             document.querySelector('.sses p').textContent = "To end the session, switch the button off.";
+        } else {
+            stopTimerAndVideo();
+            sendSessionData();
+        }
+    });
+
+    function startTimerAndVideo() {
+
+        videoFeed.src = videoFeedSrc;
+          var seconds = totalTimeElapsed;
+        timerDisplay.style.display = 'block';
+        timerInterval = setInterval(function () {
+            seconds++;
+            totalTimeElapsed++; // Update the total elapsed time
+            timerValue.innerText = seconds;
+
+        }, 1000);
+    }
+
+    function stopTimerAndVideo() {
+        stopVideo();
+        clearTimer();
+        timerDisplay.style.display = 'none';
+         document.querySelector('.sses p').textContent = "To start the session, switch the button on.";
+         $('#feedbackModal').modal('show');
+    }
+
+    function stopVideo() {
+        videoFeed.removeAttribute('src');
+    }
+    function clearTimer(){
+        clearInterval(timerInterval);
+    }
+    function sendSessionData() {
+
+        var sessionData = {
+            time: totalTimeElapsed, // Send the total elapsed time
+            eyes_closed_count: eyesClosedCount,
+            yawning_count: yawningCount,
+            attention_count: attentionCount,
+            tiredness: calculateTiredness(eyesClosedCount, yawningCount, attentionCount),
+            user_id: getUserId()
+        };
+
+        // Send session data to the backend
+        fetch('/end_ssession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(sessionData)
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function getUserId() {
+        return '{{ session.get("user_id") }}';
+    }
+    function submitFeedback(event) {
+        event.preventDefault();
+        var label = document.querySelector('input[name="stars"]:checked');
+        var starsValue = label.value;
+        var textarea = document.getElementById('feedback');
+        var textareaValue = textarea.value;
+        var userId = document.getElementById('user_id').value;
+
+
+
+        if (starsValue !== null) {
+            var formData = new FormData();
+            formData.append('stars', starsValue);
+            formData.append('feedback', textareaValue);
+            formData.append('user_id', userId);
+
+            fetch('/submit_feedback', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            console.log('Please provide all required information.');
+        }
+        }
+
+
+    function calculateTiredness(eyesClosedCount, yawningCount, attentionCount) {
+        var totalAlerts = eyesClosedCount + yawningCount + attentionCount;
+
+        if (totalAlerts < 5) {
+            return "Normal";
+        } else if (totalAlerts >= 5 && totalAlerts <= 10) {
+            return "A little tired";
+        } else {
+            return "Very Tired";
+        }
+    }
+});
+
+
+</script>
+</body>
+
+</html>
